@@ -23,10 +23,10 @@ module.exports = function(width) {
   // Create first row
   for (var i = 1; i < thirdStripeHeight; i++) {
     var newRow = " " + stripeRows[i-1] // Copy and shift previous row
-    if (i === (thirdStripeHeight - secondStripeHeight)) { // start of second stripe
-      newRow = replaceRange(newRow, width, width*2, stripeRowPattern)
-    } else if (i === (thirdStripeHeight - firstStripeHeight)) { // start of first stripe
+    if (i === (thirdStripeHeight - firstStripeHeight)) { // start of first stripe
       newRow = replaceRange(newRow, 0, width, stripeRowPattern)
+    } else if (i === (thirdStripeHeight - secondStripeHeight)) { // start of second stripe
+      newRow = replaceRange(newRow, width, width*2, stripeRowPattern)
     }
     stripeRows.push(newRow)
   }
