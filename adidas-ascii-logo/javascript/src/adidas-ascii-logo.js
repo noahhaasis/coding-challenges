@@ -12,7 +12,6 @@ module.exports = function(width) {
     throw "Error, minimun width is 2"
   }
   let stripeRowPattern = '@'.repeat(width)
-  let spaceBetweenStripes = ' '.repeat(Math.round(Math.sqrt(width)))
 
   // TODO: Refactor
   let firstStripeHeight = Math.round(Math.sqrt(width))
