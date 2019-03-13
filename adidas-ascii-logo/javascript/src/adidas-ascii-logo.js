@@ -1,8 +1,9 @@
 /******************************* SOLUTION 1 *******************************/
 /**
   * Idea:
-  * Every row in the logo is equal to the previous row shifted by one ' ' to the right,
-  * except rows where a new stripe starts. These are the only special cases.
+  * Every row in the logo is equal to the previous row
+  * shifted by one " " to the right, except rows where
+  * a new stripe starts. These are the only special cases.
   */
 function replaceRange(s, start, end, substitute) {
     return s.substring(0, start) + substitute + s.substring(end);
@@ -17,26 +18,27 @@ module.exports = function(width) {
     if (width < 2) {
         throw "Error, minimun width is 2";
     }
-    let stripeRowPattern = '@'.repeat(width);
+    const stripeRowPattern = "@".repeat(width);
 
-    let firstStripeHeight = Math.round(Math.sqrt(width));
-    let secondStripeHeight = firstStripeHeight * 2;
-    let thirdStripeHeight = firstStripeHeight + secondStripeHeight;
+    const firstStripeHeight = Math.round(Math.sqrt(width));
+    const secondStripeHeight = firstStripeHeight * 2;
+    const thirdStripeHeight = firstStripeHeight + secondStripeHeight;
 
-    // TODO: Maybe do it in reverse (start at the bottom)
-    let stripeRows = [' '.repeat(2*width) + stripeRowPattern];
+    let stripeRows = [" ".repeat(2*width) + stripeRowPattern];
     // Create first row
-    for (var i = 1; i < thirdStripeHeight; i++) {
-        var newRow = " " + stripeRows[i-1]; // Copy and shift previous row
-        if (i === (thirdStripeHeight - firstStripeHeight)) { // start of first stripe
+    for (i = 1; i < thirdStripeHeight; i+=1) {
+        let newRow = " " + stripeRows[i-1]; // Copy and shift previous row
+        if (i === (thirdStripeHeight - firstStripeHeight)) {
+            // start of first stripe
             newRow = replaceRange(newRow, 0, width, stripeRowPattern);
-        } else if (i === (thirdStripeHeight - secondStripeHeight)) { // start of second stripe
+        } else if (i === (thirdStripeHeight - secondStripeHeight)) {
+            // start of second stripe
             newRow = replaceRange(newRow, width, width*2, stripeRowPattern);
         }
         stripeRows.push(newRow);
     }
 
-    return stripeRows.join('\n');
+    return stripeRows.join("\n");
 };
 
 /******************************* SOLUTION 2 *******************************/
@@ -44,7 +46,8 @@ module.exports = function(width) {
 
 /**
  * Idea:
- * Split the logo in three straight lines with different heights and a array of offsets.
+ * Split the logo in three straight lines
+ * with different heights and a array of offsets.
  *[[      @@@],
  * [       @@@],
  * [   @@@  @@@],
@@ -61,7 +64,8 @@ module.exports = function(width) {
  *        [][@@@  ][@@@  ][@@@]
  *       [ ][@@@  ][@@@  ][@@@]
  *
- * Now the only thing which really differs from row to row is the array of offsets
+ * Now the only thing which really differs
+ * from row to row is the array of offsets.
  *
  */
 
@@ -69,52 +73,49 @@ function solution2(width) {
     if (width < 2) {
         throw "Error, minimun width is 2";
     }
-    let firstStripeHeight   = Math.round(Math.sqrt(width));
-    let secondStripeHeight  = firstStripeHeight * 2;
-    let thirdStripeHeight   = firstStripeHeight + secondStripeHeight;
-    let spaceBetweenStripes = ' '.repeat(Math.round(Math.sqrt(width)));
-    let stripePattern       = '@'.repeat(width);
+    const firstStripeHeight   = Math.round(Math.sqrt(width));
+    const secondStripeHeight  = firstStripeHeight * 2;
+    const thirdStripeHeight   = firstStripeHeight + secondStripeHeight;
+    const spaceBetweenStripes = " ".repeat(Math.round(Math.sqrt(width)));
+    const stripePattern       = "@".repeat(width);
 
     // Generate the three straight lines
-    stripes = [
-        new Array(firstStripeHeight).fill(stripePattern + spaceBetweenStripes),
-        new Array(secondStripeHeight).fill(stripePattern + spaceBetweenStripes),
+    let stripes = [
+        new Array(thirdStripeHeight).fill("")
+            .fill(stripePattern + spaceBetweenStripes, 0, firstStripeHeight),
+        new Array(thirdStripeHeight).fill("")
+            .fill(stripePattern + spaceBetweenStripes, 0, secondStripeHeight),
         new Array(thirdStripeHeight).fill(stripePattern)
     ];
 
-    offsets = new Array(thirdStripeHeight).fill("").map(function(val, i) {
-        let stripeLengths = [firstStripeHeight, secondStripeHeight, thirdStripeHeight];
-        let closestStripeEnd = stripeLengths.findIndex(h => h > i);
-        let offset = stripeLengths[closestStripeEnd] + width*closestStripeEnd - (i+1);
-        return ' '.repeat(offset);
+    const offsets = new Array(thirdStripeHeight).fill("").map(function(val, i) {
+        const stripeLengths = [firstStripeHeight, secondStripeHeight, thirdStripeHeight];
+        const closestStripeEnd = stripeLengths.findIndex(h => h > i);
+        const offset = stripeLengths[closestStripeEnd] + width*closestStripeEnd - (i+1);
+        return " ".repeat(offset);
     });
 
     stripes.unshift(offsets);
 
     /**
       * Stripe should now look like the following
-      *       [ ][@@@  ][@@@  ][@@@]
-      *        [][@@@  ][@@@  ][@@@]
-      *    [    ]       [@@@  ][@@@]
-      *     [   ]       [@@@  ][@@@]
-      * [       ]              [@@@]
-      *  [      ]              [@@@]
-      * Now concatenate it to a array of lines.
+      *      [" " ["@@@  "  ["@@@  "  ["@@@"
+      *       ,""  ,@@@  "  ,"@@@  "  ,"@@@"
+      *   ,"    "  ,""      ,"@@@  "  ,"@@@"
+      *    ,"   "  ,""      ,"@@@  "  ,"@@@"
+      *,"       "  ,""      ,"",      ,"@@@"
+      * ,"      "] ,""    ] ,""     ] ,"@@@"]
+      *     /\
+      *     ||
+      *     ||
+      *   offsets
+      *
+      * Now concatenate it to a array of lines. (in reverse order)
       */
-    logo = [];
-    for (var i = 0; i < thirdStripeHeight; i++) {
-        var line = "";
-        line += stripes[0][i]; // offset
-        if (i < firstStripeHeight) {
-            line += stripes[1][i]; // first stripe
-        }
-        if (i < secondStripeHeight) {
-            line += stripes[2][i]; // second stripe
-        }
-        line += stripes[3][i]; // third stripe
-
-        logo.push(line);
+    var logo = [];
+    for (row = thirdStripeHeight - 1; row >= 0; row-=1) {
+        logo.push(stripes.map(s => s[row]).join(""));
     }
 
-    return logo.reverse().join('\n');
+    return logo.join("\n");
 }
