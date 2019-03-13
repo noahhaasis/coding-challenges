@@ -1,3 +1,9 @@
+/******************************* SOLUTION 1 *******************************/
+/**
+  * Idea:
+  * Every row in the logo is equal to the previous row shifted by one ' ' to the right,
+  * except rows where a new stripe starts. These are the only special cases.
+  */
 function replaceRange(s, start, end, substitute) {
     return s.substring(0, start) + substitute + s.substring(end);
 }
@@ -7,9 +13,9 @@ function replaceRange(s, start, end, substitute) {
  * @param {number} width - Width of a stripe.
  * @returns {string} adidas logo.
  */
-module.exports = function(width) {
+/*module.exports*/soos = function(width) {
     if (width < 2) {
-        throw "Error, minimun width is 2";
+        throw "Error, minimum width is 2";
     }
     let stripeRowPattern = '@'.repeat(width);
 
@@ -59,9 +65,9 @@ module.exports = function(width) {
  *
  */
 
-function solution2(width) {
+/*function solution2*/module.exports = function (width) {
     if (width < 2) {
-        throw "Error, minimun width is 2";
+        throw "Error, minimum width is 2";
     }
     let firstStripeHeight   = Math.round(Math.sqrt(width));
     let secondStripeHeight  = firstStripeHeight * 2;
