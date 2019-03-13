@@ -13,9 +13,9 @@ function replaceRange(s, start, end, substitute) {
  * @param {number} width - Width of a stripe.
  * @returns {string} adidas logo.
  */
-/*module.exports*/soos = function(width) {
+module.exports = function(width) {
     if (width < 2) {
-        throw "Error, minimum width is 2";
+        throw "Error, minimun width is 2";
     }
     let stripeRowPattern = '@'.repeat(width);
 
@@ -65,9 +65,9 @@ function replaceRange(s, start, end, substitute) {
  *
  */
 
-/*function solution2*/module.exports = function (width) {
+function solution2(width) {
     if (width < 2) {
-        throw "Error, minimum width is 2";
+        throw "Error, minimun width is 2";
     }
     let firstStripeHeight   = Math.round(Math.sqrt(width));
     let secondStripeHeight  = firstStripeHeight * 2;
