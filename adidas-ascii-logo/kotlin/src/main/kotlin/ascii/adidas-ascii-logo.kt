@@ -4,7 +4,7 @@ import kotlin.math.*
 
 fun createAdidasAsciiLogo(width: Int):String{
     if (width < 2) {
-        throw Exception("Error, minimun width is 2")
+        throw Exception("Error, minimum width is 2")
     }
 
     fun heightOfStripe(i: Int):Int = 

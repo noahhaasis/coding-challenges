@@ -16,7 +16,7 @@ function replaceRange(s, start, end, substitute) {
  */
 module.exports = function(width) {
     if (width < 2) {
-        throw "Error, minimun width is 2";
+        throw "Error, minimum width is 2";
     }
     const stripeRowPattern = "@".repeat(width);
 
@@ -71,7 +71,7 @@ module.exports = function(width) {
 
 function solution2(width) {
     if (width < 2) {
-        throw "Error, minimun width is 2";
+        throw "Error, minimum width is 2";
     }
     const firstStripeHeight   = Math.round(Math.sqrt(width));
     const secondStripeHeight  = firstStripeHeight * 2;

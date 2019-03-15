@@ -7,7 +7,7 @@ public class AdidasAsciiLogo {
 
     public String createAdidasAsciiLogo(int width) {
         if (width < 2) {
-            throw new IllegalArgumentException("Error, minimun width is 2");
+            throw new IllegalArgumentException("Error, minimum width is 2");
         }
         
         int firstStripeHeight = (int)Math.round(Math.sqrt(width));
